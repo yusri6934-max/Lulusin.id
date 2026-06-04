@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Lulusin.id — Buat CV Profesional dari Awal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ========== GLOBAL ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-light: #E1F5EE;
+    --green-mid: #5DCAA5;
+    --accent: #D85A30;
+    --accent-light: #FAECE7;
+    --text: #1a1a18;
+    --text-muted: #5F5E5A;
+    --bg: #FAFAF8;
+    --white: #ffffff;
+    --border: rgba(0,0,0,0.1);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  .page {
+    transition: opacity 0.2s ease;
+  }
+  .hidden-page {
+    display: none;
+  }
+
+  /* ========== LANDING PAGE (dari desain sebelumnya, tanpa perubahan besar) ========== */
+  .landing-container {
+    width: 100%;
+    min-height: 100vh;
+  }
+  .landing-container nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--green);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-icon svg { width: 20px; height: 20px; }
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+  }
+  .logo-text span { color: var(--green); }
+  .landing-container nav ul {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .landing-container nav ul a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+  .nav-cta {
+    background: var(--green);
+    color: white !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    transition: background 0.2s !important;
+    cursor: pointer;
+  }
+  .hero {
+    min-height: 100vh;
+    padding: 8rem 2rem 5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(29,158,117,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 20% 70%, rgba(216,90,48,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-size: 0.8rem; font-weight: 600;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.5rem);
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+  h1 em { font-style: italic; color: var(--green); }
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 480px;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green);
+    color: white;
+    padding: 0.85rem 1.75rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--text);
+    padding: 0.85rem 1.75rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid var(--border);
+    background: white;
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 2.5rem;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--green);
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+  .hero-visual { position: relative; }
+  .cv-mockup {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.10);
+  }
+  .cv-header {
+    background: var(--green);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .cv-avatar {
+    width: 52px; height: 52px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: white;
+  }
+  .cv-name { color: white; font-weight: 700; }
+  .cv-title { color: rgba(255,255,255,0.8); font-size: 0.8rem; }
+  .cv-score { margin-left: auto; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 12px; text-align: center; }
+  .cv-score-num { color: white; font-weight: 700; font-size: 1.2rem; }
+  .ai-badge, .linkedin-badge {
+    position: absolute; background: white; border: 1px solid var(--border);
+    border-radius: 12px; padding: 10px 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    font-size: 0.78rem; font-weight: 600;
+    animation: float 3s ease-in-out infinite;
+  }
+  .ai-badge { right: -1rem; top: 2rem; display: flex; align-items: center; gap: 8px; }
+  .ai-dot { width: 10px; height: 10px; background: var(--green); border-radius: 50%; }
+  .linkedin-badge { left: -1rem; bottom: 2rem; color: #0077b5; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); margin-bottom: 0.75rem; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); line-height: 1.2; margin-bottom: 1rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .feature-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; transition: 0.2s; }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.07); }
+  .feature-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--green-light); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; font-size: 1.4rem; }
+  .how-section { padding: 6rem 2rem; background: var(--green); position: relative; color: white; }
+  .how-inner { max-width: 1200px; margin: 0 auto; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .step-num { font-family: 'DM Serif Display', serif; font-size: 3rem; color: rgba(255,255,255,0.15); line-height: 1; }
+  .step-title { font-weight: 700; color: white; margin-bottom: 0.5rem; }
+  .testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .testimonial-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; }
+  .cta-section { padding: 5rem 2rem; text-align: center; background: var(--bg); }
+  .cta-box { max-width: 700px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid var(--border); padding: 4rem 3rem; position: relative; }
+  footer { background: var(--text); color: rgba(255,255,255,0.5); padding: 3rem 2rem; text-align: center; font-size: 0.85rem; }
+  .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: white; margin-bottom: 0.5rem; }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .features-grid, .testimonials { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .landing-container nav ul { display: none; }
+  }
+
+  /* ========== CV BUILDER STYLE (dengan penyesuaian) ========== */
+  .builder-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .builder-topnav {
+    height: 60px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    flex-shrink: 0;
+  }
+  .builder-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .back-home-btn {
+    background: none;
+    border: none;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 20px;
+    transition: background 0.2s;
+  }
+  .back-home-btn:hover { background: var(--green-light); }
+  .score-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-light);
+    border-radius: 100px;
+    padding: 5px 14px 5px 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--green-dark);
+  }
+  .score-circle {
+    width: 26px; height: 26px;
+    background: var(--green);
+    border-radius: 50%;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .btn-primary {
+    background: var(--green);
+    color: white;
+  }
+  .main-builder {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  .sidebar {
+    width: 380px;
+    background: white;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 1rem;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    background: none;
+    border: none;
+  }
+  .tab.active {
+    color: var(--green);
+    border-bottom-color: var(--green);
+  }
+  .panel { display: none; padding: 1.25rem; }
+  .panel.active { display: block; }
+  .form-group { margin-bottom: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
+  input, textarea, select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-family: inherit;
+  }
+  input:focus, textarea:focus { border-color: var(--green); outline: none; }
+  .section-header {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+  .add-btn {
+    background: none;
+    border: none;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+  .item-card {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+  .remove-btn {
+    position: absolute; top: 8px; right: 8px;
+    background: none; border: none;
+    cursor: pointer;
+    color: #aaa;
+  }
+  .skill-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .skill-tag {
+    background: var(--green-light);
+    color: var(--green-dark);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .templates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+  .tpl-option { border: 2px solid var(--border); border-radius: 8px; cursor: pointer; padding: 4px; text-align: center; font-size: 0.7rem; }
+  .tpl-option.active { border-color: var(--green); }
+  .color-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+  .swatch.active { border-color: var(--text); transform: scale(1.1); }
+  .preview-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--bg);
+  }
+  .cv-doc {
+    width: 794px;
+    min-height: 1123px;
+    background: white;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+  .ats-meter {
+    width: 794px;
+    background: white;
+    padding: 1rem 1.25rem;
+    border-radius: 0 0 4px 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 0;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+  }
+  .ats-track { flex: 1; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
+  .ats-fill { height: 100%; background: var(--green); transition: width 0.2s; }
+  @media print {
+    .builder-topnav, .sidebar, .preview-area .preview-label, .ats-meter { display: none !important; }
+    .main-builder { display: block; overflow: visible; }
+    .builder-container { height: auto; overflow: visible; }
+    .cv-doc { box-shadow: none; }
+  }
+  .cv-name-display { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--cv-color, #1D9E75); }
+  .cv-section-title-cv { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cv-color, #1D9E75); margin: 1rem 0 0.5rem; border-bottom: 1.5px solid var(--cv-color, #1D9E75); display: inline-block; }
+  .cv-tag { display: inline-block; background: #f5f5f2; border-radius: 4px; padding: 2px 8px; font-size: 0.72rem; margin: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ========== LANDING PAGE ========== -->
+<div id="landingPage" class="page landing-container">
+  <nav>
+    <a class="logo" id="landingLogo">
+      <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/><circle cx="17" cy="16" r="4" fill="white" stroke="none"/><path d="M15.5 16l1 1 2-2" stroke="#1D9E75"/></svg></div>
+      <span class="logo-text">Lulus<span>in</span>.id</span>
+    </a>
+    <ul>
+      <li><a href="#fitur">Fitur</a></li>
+      <li><a href="#cara-kerja">Cara Kerja</a></li>
+      <li><a href="#testimoni">Testimoni</a></li>
+      <li><a class="nav-cta" id="navOpenBuilder">Mulai Gratis</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">🎓 Platform #1 untuk Fresh Graduate Indonesia</div>
+        <h1>CV Profesional yang <em>Membuka Pintu</em> Karir Impianmu</h1>
+        <p class="hero-desc">Lulusin.id membantu mahasiswa dan fresh graduate Indonesia membuat CV yang ATS-friendly, mengoptimasi profil LinkedIn, dan meningkatkan peluang diterima kerja dengan analisis berbasis AI.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" id="heroOpenBuilder">Buat CV Gratis →</button>
+          <a href="#cara-kerja" class="btn-secondary">Lihat Cara Kerja</a>
+        </div>
+        <div class="hero-stats">
+          <div><span class="stat-num">10K+</span><span class="stat-label">Pengguna Aktif</span></div>
+          <div><span class="stat-num">87%</span><span class="stat-label">Tingkat Dipanggil Interview</span></div>
+          <div><span class="stat-num">500+</span><span class="stat-label">Perusahaan Partner</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="cv-mockup"><div class="cv-header"><div class="cv-avatar">BR</div><div><div class="cv-name">Budi Ramadhan</div><div class="cv-title">Fresh Graduate · Teknik Informatika</div></div><div class="cv-score"><span class="cv-score-num">92</span><span class="cv-score-label">ATS Score</span></div></div><div class="cv-body" style="padding:1rem;"><div style="height:60px; background:#f0f0ee; border-radius:8px;"></div></div></div>
+        <div class="ai-badge"><div class="ai-dot"></div> AI sedang menganalisis…</div>
+        <div class="linkedin-badge">🔗 Profil LinkedIn dioptimasi</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="fitur" style="background: #F4F3EF; padding: 1px 0;"><section class="section"><div class="section-label">Fitur Unggulan</div><h2>Semua yang Kamu Butuhkan<br>untuk Karir Pertamamu</h2><div class="features-grid"><div class="feature-card"><div class="feature-icon">📄</div><div class="feature-title">CV Builder Cerdas</div><p class="feature-desc">Template ATS-friendly yang telah terbukti lolos sistem seleksi otomatis.</p></div><div class="feature-card"><div class="feature-icon accent">🤖</div><div class="feature-title">Analisis AI Mendalam</div><p class="feature-desc">Skor ATS & rekomendasi kata kunci dari CV Anda seperti rekruter sungguhan.</p></div><div class="feature-card"><div class="feature-icon blue">💼</div><div class="feature-title">Optimasi LinkedIn</div><p class="feature-desc">Tingkatkan visibilitas profilmu agar muncul di pencarian rekruter.</p></div></div></section></div>
+
+  <section id="cara-kerja" class="how-section"><div class="how-inner"><div class="section-label" style="color: rgba(255,255,255,0.6);">Cara Kerja</div><h2 style="color:white;">4 Langkah Menuju CV yang Sempurna</h2><div class="steps"><div class="step"><div class="step-num">01</div><div class="step-title">Daftar Gratis</div><p class="step-desc">Buat akun dengan email atau Google.</p></div><div class="step"><div class="step-num">02</div><div class="step-title">Isi Profil Lengkap</div><p class="step-desc">Masukkan pengalaman, pendidikan, dan keahlianmu.</p></div><div class="step"><div class="step-num">03</div><div class="step-title">Analisis & Optimasi</div><p class="step-desc">Dapatkan skor ATS dan rekomendasi konkret.</p></div><div class="step"><div class="step-num">04</div><div class="step-title">Download & Lamar</div><p class="step-desc">Unduh CV PDF siap kirim.</p></div></div></div></section>
+
+  <div id="testimoni" style="background: var(--bg);"><section class="section"><div class="section-label">Testimoni</div><h2>Cerita Sukses dari Pengguna Lulusin.id</h2><div class="testimonials"><div class="testimonial-card"><div class="stars">★★★★★</div><p>"Skor ATS naik drastis, dalam 2 minggu dapat 3 panggilan interview."</p><div class="testimonial-author"><div class="author-avatar" style="background: var(--green);">AN</div><div><div class="author-name">Andi Nugroho</div><div class="author-info">Fresh Graduate · Diterima di Gojek</div></div></div></div><div class="testimonial-card"><div class="stars">★★★★★</div><p>"LinkedIn saya sekarang banyak dihubungi headhunter!"</p><div class="testimonial-author"><div class="author-avatar" style="background: var(--accent);">SR</div><div><div class="author-name">Sari Rahayu</div><div class="author-info">S1 Komunikasi</div></div></div></div></div></section></div>
+
+  <section id="mulai" class="cta-section"><div class="cta-box"><div class="section-label" style="margin-bottom:0.5rem;">Mulai Sekarang</div><h2>Wujudkan Karir Impianmu<br>Bersama Lulusin.id</h2><p>Bergabunglah dengan 10.000+ fresh graduate Indonesia.</p><button class="btn-primary" id="ctaOpenBuilder" style="font-size:1rem; padding: 1rem 2rem;">Buat CV Gratis Sekarang →</button><p style="margin-top:1rem; font-size:0.82rem;">Tidak perlu kartu kredit · Daftar dalam 30 detik</p></div></section>
+
+  <footer><div class="footer-logo">Lulus<span>in</span>.id</div><p>Platform digital karir untuk mahasiswa & fresh graduate Indonesia</p><div><a href="#">Tentang Kami</a><a href="#">Fitur</a><a href="#">Blog</a><a href="#">Kontak</a></div><p style="margin-top:1.5rem;">© 2025 Lulusin.id · Bandar Lampung, Indonesia</p></footer>
+</div>
+
+<!-- ========== CV BUILDER PAGE (AWALNYA KOSONG) ========== -->
+<div id="builderPage" class="page builder-container hidden-page">
+  <div class="builder-topnav">
+    <div class="builder-nav-left">
+      <button class="back-home-btn" id="backToLandingBtn">← Kembali ke Beranda</button>
+      <div class="divider-v" style="width:1px; height:20px; background:#e0e0e0;"></div>
+      <div class="logo" style="gap:5px;"><div class="logo-icon" style="width:28px; height:28px;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></div><span class="logo-text" style="font-size:1rem;">Lulus<span>in</span>.id</span></div>
+    </div>
+    <div class="nav-right">
+      <div class="score-pill"><div class="score-circle" id="ats-badge">0</div> ATS Score</div>
+      <button class="btn btn-ghost" onclick="window.print()">⬇ Download PDF</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨 Print CV</button>
+    </div>
+  </div>
+  <div class="main-builder">
+    <div class="sidebar">
+      <div class="tabs"><button class="tab active" onclick="switchTab('profil', this)">Profil</button><button class="tab" onclick="switchTab('pengalaman', this)">Pengalaman</button><button class="tab" onclick="switchTab('pendidikan', this)">Pendidikan</button><button class="tab" onclick="switchTab('keahlian', this)">Keahlian</button><button class="tab" onclick="switchTab('desain', this)">Desain</button></div>
+      <div class="panel active" id="panel-profil"><div class="section-header">Informasi Pribadi</div><div class="form-row"><div class="form-group"><label>Nama Depan</label><input type="text" id="f-fname" placeholder="Budi" oninput="updatePreview()"></div><div class="form-group"><label>Nama Belakang</label><input type="text" id="f-lname" placeholder="Ramadhan" oninput="updatePreview()"></div></div><div class="form-group"><label>Posisi</label><input type="text" id="f-role" placeholder="Fresh Graduate · Teknik Informatika" oninput="updatePreview()"></div><div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="budi@email.com" oninput="updatePreview()"></div><div class="form-group"><label>Telepon</label><input type="tel" id="f-phone" placeholder="0812xxxx" oninput="updatePreview()"></div></div><div class="form-row"><div class="form-group"><label>Kota</label><input type="text" id="f-city" placeholder="Bandar Lampung" oninput="updatePreview()"></div><div class="form-group"><label>LinkedIn</label><input type="text" id="f-linkedin" placeholder="linkedin.com/in/budi" oninput="updatePreview()"></div></div><div class="form-group"><label>Ringkasan</label><textarea id="f-summary" rows="4" placeholder="Tuliskan ringkasan singkat tentang diri Anda..." oninput="updatePreview()"></textarea></div></div>
+      <div class="panel" id="panel-pengalaman"><div class="section-header">Pengalaman Kerja <button class="add-btn" onclick="addExp()">+ Tambah</button></div><div id="exp-list"></div></div>
+      <div class="panel" id="panel-pendidikan"><div class="section-header">Pendidikan <button class="add-btn" onclick="addEdu()">+ Tambah</button></div><div id="edu-list"></div></div>
+      <div class="panel" id="panel-keahlian"><div class="section-header">Keahlian Teknis</div><div class="skill-tag-input" style="display:flex; gap:8px;"><input type="text" id="skill-input" placeholder="Python, React..." onkeydown="if(event.key==='Enter')addSkill()"><button class="add-btn" onclick="addSkill()">Tambah</button></div><div class="skill-tags" id="skill-tags"></div><div class="section-header">Bahasa <button class="add-btn" onclick="addLang()">+</button></div><div id="lang-list"></div><div class="section-header">Organisasi <button class="add-btn" onclick="addOrg()">+</button></div><div id="org-list"></div></div>
+      <div class="panel" id="panel-desain"><div class="section-header">Template</div><div class="templates"><div class="tpl-option active" onclick="setTemplate('modern', this)">Modern</div><div class="tpl-option" onclick="setTemplate('classic', this)">Klasik</div><div class="tpl-option" onclick="setTemplate('minimal', this)">Minimal</div></div><div class="section-header">Warna Utama</div><div class="color-swatches"><div class="swatch active" style="background:#1D9E75" onclick="setColor('#1D9E75','#E1F5EE',this)"></div><div class="swatch" style="background:#185FA5" onclick="setColor('#185FA5','#E6F1FB',this)"></div><div class="swatch" style="background:#D85A30" onclick="setColor('#D85A30','#FAECE7',this)"></div><div class="swatch" style="background:#7F77DD" onclick="setColor('#7F77DD','#EEEDFE',this)"></div></div><div class="section-header">Font</div><select id="font-select" onchange="setFont(this.value)"><option value="Inter">Inter</option><option value="'Georgia', serif">Georgia</option><option value="'DM Serif Display', serif">DM Serif</option></select></div>
+    </div>
+    <div class="preview-area"><div class="preview-label">Pratinjau CV</div><div class="cv-doc tpl-modern" id="cv-doc"></div><div class="ats-meter"><span class="ats-label">ATS Score</span><div class="ats-track"><div class="ats-fill" id="ats-fill" style="width:0%"></div></div><span class="ats-score-num" id="ats-score-display">0/100</span></div></div>
+  </div>
+</div>
+
+<script>
+  // ========== NAVIGASI ==========
+  const landingDiv = document.getElementById('landingPage');
+  const builderDiv = document.getElementById('builderPage');
+  function showLanding() { landingDiv.classList.remove('hidden-page'); builderDiv.classList.add('hidden-page'); document.body.style.overflow = 'auto'; }
+  function showBuilder() { landingDiv.classList.add('hidden-page'); builderDiv.classList.remove('hidden-page'); document.body.style.overflow = 'hidden'; resetBuilderToEmpty(); updatePreview(); }
+  document.querySelectorAll('#navOpenBuilder, #heroOpenBuilder, #ctaOpenBuilder').forEach(el => el.addEventListener('click', showBuilder));
+  document.getElementById('backToLandingBtn')?.addEventListener('click', showLanding);
+  document.getElementById('landingLogo')?.addEventListener('click', (e) => { e.preventDefault(); showLanding(); });
+
+  // ========== CV BUILDER STATE (semua kosong) ==========
+  let state = {
+    fname: '', lname: '', role: '', email: '', phone: '', city: '', linkedin: '', summary: '',
+    exp: [], edu: [], skills: [], langs: [], orgs: [],
+    template: 'modern', color: '#1D9E75', colorLight: '#E1F5EE', font: 'Inter'
+  };
+
+  // Fungsi untuk mereset semua data ke kondisi kosong
+  function resetBuilderToEmpty() {
+    state = {
+      fname: '', lname: '', role: '', email: '', phone: '', city: '', linkedin: '', summary: '',
+      exp: [], edu: [], skills: [], langs: [], orgs: [],
+      template: 'modern', color: '#1D9E75', colorLight: '#E1F5EE', font: 'Inter'
+    };
+    // Kosongkan semua input form
+    const inputIds = ['f-fname', 'f-lname', 'f-role', 'f-email', 'f-phone', 'f-city', 'f-linkedin', 'f-summary'];
+    inputIds.forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    // Render ulang list kosong
+    renderExpList();
+    renderEduList();
+    renderSkillTags();
+    renderLangList();
+    renderOrgList();
+    // Reset pilihan template & warna ke default
+    state.template = 'modern';
+    state.color = '#1D9E75';
+    state.colorLight = '#E1F5EE';
+    state.font = 'Inter';
+    document.querySelectorAll('.tpl-option').forEach((opt,idx) => { if(idx===0) opt.classList.add('active'); else opt.classList.remove('active'); });
+    document.querySelectorAll('.swatch').forEach((sw,idx) => { if(idx===0) sw.classList.add('active'); else sw.classList.remove('active'); });
+    const fontSelect = document.getElementById('font-select');
+    if(fontSelect) fontSelect.value = 'Inter';
+    // Update tampilan CV
+    updatePreview();
+  }
+
+  // Fungsi baca form dari DOM
+  function readForm() {
+    state.fname = document.getElementById('f-fname')?.value || '';
+    state.lname = document.getElementById('f-lname')?.value || '';
+    state.role = document.getElementById('f-role')?.value || '';
+    state.email = document.getElementById('f-email')?.value || '';
+    state.phone = document.getElementById('f-phone')?.value || '';
+    state.city = document.getElementById('f-city')?.value || '';
+    state.linkedin = document.getElementById('f-linkedin')?.value || '';
+    state.summary = document.getElementById('f-summary')?.value || '';
+  }
+
+  // Tab switching
+  function switchTab(id, el) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id)?.classList.add('active');
+    if(el) el.classList.add('active');
+  }
+  window.switchTab = switchTab;
+
+  // Template, warna, font
+  function setTemplate(tpl, el) {
+    document.querySelectorAll('.tpl-option').forEach(t => t.classList.remove('active'));
+    if(el) el.classList.add('active');
+    state.template = tpl; updatePreview();
+  }
+  window.setTemplate = setTemplate;
+  function setColor(col, light, el) {
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    if(el) el.classList.add('active');
+    state.color = col; state.colorLight = light; updatePreview();
+  }
+  window.setColor = setColor;
+  function setFont(f) { state.font = f; updatePreview(); }
+  window.setFont = setFont;
+
+  // ========== CRUD EXPERIENCE ==========
+  function addExp() { state.exp.push({ title: '', company: '', period: '', desc: '' }); renderExpList(); updatePreview(); }
+  function removeExp(i) { state.exp.splice(i,1); renderExpList(); updatePreview(); }
+  function renderExpList() {
+    const container = document.getElementById('exp-list'); if(!container) return;
+    container.innerHTML = state.exp.map((e,i)=>`<div class="item-card"><button class="remove-btn" onclick="removeExp(${i})">✕</button><div class="form-group"><label>Posisi</label><input type="text" value="${escapeHtml(e.title)}" oninput="state.exp[${i}].title=this.value;updatePreview()"></div><div class="form-group"><label>Perusahaan</label><input type="text" value="${escapeHtml(e.company)}" oninput="state.exp[${i}].company=this.value;updatePreview()"></div><div class="form-group"><label>Periode</label><input type="text" value="${escapeHtml(e.period)}" oninput="state.exp[${i}].period=this.value;updatePreview()"></div><div class="form-group"><label>Deskripsi</label><textarea oninput="state.exp[${i}].desc=this.value;updatePreview()">${escapeHtml(e.desc)}</textarea></div></div>`).join('');
+  }
+  window.addExp = addExp; window.removeExp = removeExp;
+
+  // ========== CRUD EDUCATION ==========
+  function addEdu() { state.edu.push({ degree: '', school: '', period: '', gpa: '' }); renderEduList(); updatePreview(); }
+  function removeEdu(i) { state.edu.splice(i,1); renderEduList(); updatePreview(); }
+  function renderEduList() { const container = document.getElementById('edu-list'); if(!container) return; container.innerHTML = state.edu.map((e,i)=>`<div class="item-card"><button class="remove-btn" onclick="removeEdu(${i})">✕</button><div class="form-group"><label>Gelar</label><input type="text" value="${escapeHtml(e.degree)}" oninput="state.edu[${i}].degree=this.value;updatePreview()"></div><div class="form-group"><label>Sekolah</label><input type="text" value="${escapeHtml(e.school)}" oninput="state.edu[${i}].school=this.value;updatePreview()"></div><div class="form-row"><div class="form-group"><label>Periode</label><input type="text" value="${escapeHtml(e.period)}" oninput="state.edu[${i}].period=this.value;updatePreview()"></div><div class="form-group"><label>IPK</label><input type="text" value="${escapeHtml(e.gpa)}" oninput="state.edu[${i}].gpa=this.value;updatePreview()"></div></div></div>`).join(''); }
+  window.addEdu = addEdu; window.removeEdu = removeEdu;
+
+  // ========== SKILLS ==========
+  function addSkill() { const inp = document.getElementById('skill-input'); if(inp && inp.value.trim() && !state.skills.includes(inp.value.trim())) { state.skills.push(inp.value.trim()); renderSkillTags(); updatePreview(); } if(inp) inp.value = ''; }
+  function removeSkill(i) { state.skills.splice(i,1); renderSkillTags(); updatePreview(); }
+  function renderSkillTags() { const container = document.getElementById('skill-tags'); if(container) container.innerHTML = state.skills.map((s,i)=>`<div class="skill-tag">${s}<button onclick="removeSkill(${i})">✕</button></div>`).join(''); }
+  window.addSkill = addSkill; window.removeSkill = removeSkill;
+
+  // ========== LANGUAGES ==========
+  function addLang() { state.langs.push({ lang: '', level: 'Profesional' }); renderLangList(); updatePreview(); }
+  function removeLang(i) { state.langs.splice(i,1); renderLangList(); updatePreview(); }
+  function renderLangList() { const container = document.getElementById('lang-list'); if(!container) return; container.innerHTML = state.langs.map((l,i)=>`<div class="item-card"><button class="remove-btn" onclick="removeLang(${i})">✕</button><div class="form-row"><div class="form-group"><label>Bahasa</label><input type="text" value="${escapeHtml(l.lang)}" oninput="state.langs[${i}].lang=this.value;updatePreview()"></div><div class="form-group"><label>Level</label><select onchange="state.langs[${i}].level=this.value;updatePreview()">${['Native','Profesional','Menengah','Dasar'].map(v=>`<option ${l.level===v?'selected':''}>${v}</option>`)}</select></div></div></div>`).join(''); }
+  window.addLang = addLang; window.removeLang = removeLang;
+
+  // ========== ORGANIZATIONS ==========
+  function addOrg() { state.orgs.push({ name: '', role: '', period: '' }); renderOrgList(); updatePreview(); }
+  function removeOrg(i) { state.orgs.splice(i,1); renderOrgList(); updatePreview(); }
+  function renderOrgList() { const container = document.getElementById('org-list'); if(!container) return; container.innerHTML = state.orgs.map((o,i)=>`<div class="item-card"><button class="remove-btn" onclick="removeOrg(${i})">✕</button><div class="form-group"><label>Nama</label><input type="text" value="${escapeHtml(o.name)}" oninput="state.orgs[${i}].name=this.value;updatePreview()"></div><div class="form-row"><div class="form-group"><label>Jabatan</label><input type="text" value="${escapeHtml(o.role)}" oninput="state.orgs[${i}].role=this.value;updatePreview()"></div><div class="form-group"><label>Periode</label><input type="text" value="${escapeHtml(o.period)}" oninput="state.orgs[${i}].period=this.value;updatePreview()"></div></div></div>`).join(''); }
+  window.addOrg = addOrg; window.removeOrg = removeOrg;
+
+  // ========== ATS SCORE ==========
+  function computeATS() { let s=0; if(state.fname) s+=5; if(state.email) s+=5; if(state.phone) s+=5; if(state.city) s+=5; if(state.linkedin) s+=5; if(state.role) s+=5; if(state.summary && state.summary.length>80) s+=15; else if(state.summary) s+=7; s+=Math.min(state.exp.length*10,20); s+=Math.min(state.edu.length*8,16); s+=Math.min(state.skills.length*2,14); if(state.langs.length) s+=5; return Math.min(s,100); }
+
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  // ========== RENDER PREVIEW CV ==========
+  function updatePreview() {
+    readForm();
+    const doc = document.getElementById('cv-doc'); if(!doc) return;
+    const fullName = (state.fname + ' ' + state.lname).trim() || 'Nama Lengkap';
+    doc.className = `cv-doc tpl-${state.template}`;
+    doc.style.setProperty('--cv-color', state.color);
+    doc.style.fontFamily = state.font;
+    const initials = ((state.fname[0]||'')+(state.lname[0]||'')).toUpperCase() || 'CV';
+    const contactItems = [state.email && `✉ ${state.email}`, state.phone && `☎ ${state.phone}`, state.city && `⊙ ${state.city}`, state.linkedin && `⧉ ${state.linkedin}`].filter(Boolean);
+    const contactHTML = contactItems.length ? `<div class="cv-contact-row" style="display:flex; flex-wrap:wrap; gap:6px; font-size:0.7rem;">${contactItems.map(c=>`<span>${c}</span>`).join('')}</div>` : '';
+    const summaryHTML = state.summary ? `<div class="cv-section-title-cv">Tentang Saya</div><p class="cv-summary" style="font-size:0.8rem;">${escapeHtml(state.summary)}</p>` : '';
+    const expHTML = state.exp.length ? `<div class="cv-section-title-cv">Pengalaman Kerja</div>${state.exp.map(e=>`<div class="cv-entry" style="margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><span class="cv-entry-title" style="font-weight:700;">${escapeHtml(e.title)}</span><span style="font-size:0.7rem;">${escapeHtml(e.period)}</span></div><div style="font-size:0.75rem;">${escapeHtml(e.company)}</div><p style="font-size:0.75rem;">${escapeHtml(e.desc)}</p></div>`).join('')}` : '';
+    const eduHTML = state.edu.length ? `<div class="cv-section-title-cv">Pendidikan</div>${state.edu.map(e=>`<div><div style="display:flex; justify-content:space-between;"><span style="font-weight:600;">${escapeHtml(e.degree)}</span><span style="font-size:0.7rem;">${escapeHtml(e.period)}</span></div><div style="font-size:0.75rem;">${escapeHtml(e.school)} ${e.gpa ? `· IPK ${e.gpa}` : ''}</div></div>`).join('')}` : '';
+    const skillsHTML = `<div class="cv-section-title-cv">Keahlian</div><div>${state.skills.map(s=>`<span class="cv-tag">${escapeHtml(s)}</span>`).join('')}</div>`;
+    const langHTML = state.langs.length ? `<div class="cv-section-title-cv">Bahasa</div>${state.langs.map(l=>`<div style="display:flex; justify-content:space-between;"><span>${escapeHtml(l.lang)}</span><span>${l.level}</span></div>`).join('')}` : '';
+    const orgHTML = state.orgs.length ? `<div class="cv-section-title-cv">Organisasi</div>${state.orgs.map(o=>`<div><div style="font-weight:600;">${escapeHtml(o.name)}</div><div style="font-size:0.7rem;">${escapeHtml(o.role)} · ${escapeHtml(o.period)}</div></div>`).join('')}` : '';
+    if(state.template === 'modern') doc.innerHTML = `<div style="display:flex; min-height:1123px;"><div style="width:220px; padding:2rem 1.5rem; background:${state.colorLight};"><div style="background:${state.color}; width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:1.8rem; margin-bottom:1rem;">${initials}</div>${skillsHTML}${langHTML}${orgHTML}<div class="cv-section-title-cv">Kontak</div>${contactItems.map(c=>`<div style="font-size:0.7rem;">${c}</div>`).join('')}</div><div style="flex:1; padding:2rem;"><div class="cv-name-display">${fullName}</div><div style="margin-bottom:1rem; color:${state.color};">${escapeHtml(state.role)}</div>${summaryHTML}${expHTML}${eduHTML}</div></div>`;
+    else if(state.template === 'classic') doc.innerHTML = `<div><div style="padding:2rem; border-bottom:2px solid ${state.color};"><div class="cv-name-display">${fullName}</div><div style="color:${state.color};">${escapeHtml(state.role)}</div>${contactHTML}</div><div style="padding:2rem; display:grid; grid-template-columns:1fr 200px; gap:2rem;"><div>${summaryHTML}${expHTML}${eduHTML}</div><div>${skillsHTML}${langHTML}${orgHTML}</div></div></div>`;
+    else doc.innerHTML = `<div style="padding:2rem;"><div style="border-left:4px solid ${state.color}; padding-left:1rem;"><div class="cv-name-display">${fullName}</div><div style="color:${state.color};">${escapeHtml(state.role)}</div>${contactHTML}</div>${summaryHTML}${expHTML}${eduHTML}${skillsHTML}${langHTML}${orgHTML}</div>`;
+    const score = computeATS();
+    document.getElementById('ats-fill') && (document.getElementById('ats-fill').style.width = score+'%');
+    document.getElementById('ats-score-display') && (document.getElementById('ats-score-display').innerText = score+'/100');
+    document.getElementById('ats-badge') && (document.getElementById('ats-badge').innerText = score);
+  }
+  window.updatePreview = updatePreview;
+  // Inisialisasi awal (tidak ada data contoh)
+  resetBuilderToEmpty();
+</script>
+</body>
+</html>
